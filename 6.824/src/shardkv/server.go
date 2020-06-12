@@ -1,10 +1,10 @@
 package shardkv
 
 // import "../shardmaster"
-import "../labrpc"
-import "../raft"
+import "6.824/src/labrpc"
+import "6.824/src/raft"
 import "sync"
-import "../labgob"
+import "6.824/src/labgob"
 
 type Op struct {
 	// Your definitions here.

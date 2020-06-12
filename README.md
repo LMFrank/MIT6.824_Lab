@@ -28,5 +28,4 @@ MapReduce: Simplified Data Processing on Large Clusters
 2. 启动`GO111MODULE`，也就是使用`go mod`管理包
    - 在6.824根目录下打开cmd，输入`go mod init <name>`
    - 更改源码中的导包方式，将相对路径改为绝对包路径
-   - 使用`go build -buildmode=plugin 6.824/src/mrapps/wc.go`编译
 
