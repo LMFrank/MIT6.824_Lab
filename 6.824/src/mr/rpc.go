@@ -9,6 +9,30 @@ package mr
 import "os"
 import "strconv"
 
+// WorkerId
+type WorkArgs struct {
+	WorkerId string
+}
+
+// 任务信息
+type WorkReply struct {
+	IsFinished bool // 任务是否完成
+	TaskId     int
+	FileName   string
+	MapReduce  string // 当前任务是map还是reduce
+	FileNumber int    // 任务应读取和输出多少个文件
+}
+
+type CommitArgs struct {
+	WorkerId  string
+	TaskId    int
+	MapReduce string
+}
+
+type CommitReply struct {
+	isOK bool
+}
+
 //
 // example to show how to declare the arguments
 // and reply for an RPC.
