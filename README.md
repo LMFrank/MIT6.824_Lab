@@ -1,6 +1,7 @@
 ## MIT6.824
 
 ### Lab1-MapReduce
+课程主页：http://nil.csail.mit.edu/6.824/2020/index.html
 
 **视频资料**：
 
@@ -8,7 +9,7 @@
 
 **参考资料**：（均在Lab1目录下）
 
-1. 文献：MapReduce: Simplified Data Processing on Large Clusters
+1. 文献：[MapReduce: Simplified Data Processing on Large Clusters](https://github.com/LMFrank/MIT6.824_Lab/blob/master/Lab1/mapreduce.pdf)
 
 2. 文献翻译：
    - MapReduce:在大型集群上简化数据处理（1）：https://mp.weixin.qq.com/s/sChCf07SxhTudxFIKd8pgA
@@ -18,7 +19,7 @@
 
 3. 实验文档：包含中英文
 
-MapReduce: Simplified Data Processing on Large Clusters
+[Lab1 MapReduce](http://nil.csail.mit.edu/6.824/2020/labs/lab-mr.html)
 
 **Note**：
 
