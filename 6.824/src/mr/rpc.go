@@ -30,7 +30,7 @@ type CommitArgs struct {
 }
 
 type CommitReply struct {
-	isOK bool
+	IsOK bool
 }
 
 //
