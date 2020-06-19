@@ -96,7 +96,8 @@ func Worker(mapf func(string, string) []KeyValue,
 			MapReduce: reply.MapReduce,
 		}
 		commitReply := CommitReply{}
-		_ = call("Master.Commit", &CommitArgs, &commitReply)
+		isOK := call("Master.Commit", &CommitArgs, &commitReply)
+		log.Println("Call isOK:", isOK)
 		time.Sleep(500 * time.Millisecond)
 	}
 }

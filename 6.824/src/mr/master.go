@@ -137,6 +137,7 @@ func (m *Master) Commit(args *CommitArgs, reply *CommitReply) error {
 		}
 	}
 	m.mu.Unlock()
+
 	log.Println("current", m.mapTasks, m.reduceTasks)
 
 	for _, v := range m.mapTasks {
@@ -186,7 +187,7 @@ func (m *Master) server() {
 // if the entire job has finished.
 //
 func (m *Master) Done() bool {
-	return true
+	return m.allCommited
 }
 
 //
