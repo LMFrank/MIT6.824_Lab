@@ -53,7 +53,7 @@ func (m *Master) Work(args *WorkArgs, reply *WorkReply) error {
 		m.workerCommit[args.WorkerId] = TaskWorking
 		m.mapTasks[k] = TaskWorking
 
-		log.Println("a worker", args.WorkerId, "apply a map task:", *reply)
+		//log.Println("a worker", args.WorkerId, "apply a map task:", *reply)
 
 		// 超时机制
 		// Master在分配任务时，开启计时，如果worker超时任然没有提交任务，
@@ -67,7 +67,7 @@ func (m *Master) Work(args *WorkArgs, reply *WorkReply) error {
 					defer m.mu.Unlock()
 					if m.workerCommit[args.WorkerId] != TaskCommit && m.mapTasks[k] != TaskCommit {
 						m.mapTasks[k] = TaskIdle
-						log.Println("[Error]:", "worker:", args.WorkerId, "map task:", k, "timeout")
+						//log.Println("[Error]:", "worker:", args.WorkerId, "map task:", k, "timeout")
 					}
 				}
 			}
@@ -91,7 +91,7 @@ func (m *Master) Work(args *WorkArgs, reply *WorkReply) error {
 		m.workerCommit[args.WorkerId] = TaskWorking
 		m.reduceTasks[k] = TaskWorking
 
-		log.Println("a worker", args.WorkerId, "apply a reduce task:", *reply)
+		//log.Println("a worker", args.WorkerId, "apply a reduce task:", *reply)
 
 		ctx, _ := context.WithTimeout(context.Background(), m.timeout)
 		go func() {
@@ -100,9 +100,9 @@ func (m *Master) Work(args *WorkArgs, reply *WorkReply) error {
 				{
 					m.mu.Lock()
 					defer m.mu.Unlock()
-					if m.workerCommit[args.WorkerId] != TaskCommit && m.mapTasks[k] != TaskCommit {
-						m.mapTasks[k] = TaskIdle
-						log.Println("[Error]:", "worker:", args.WorkerId, "reduce task:", k, "timeout")
+					if m.workerCommit[args.WorkerId] != TaskCommit && m.reduceTasks[k] != TaskCommit {
+						m.reduceTasks[k] = TaskIdle
+						//log.Println("[Error]:", "worker:", args.WorkerId, "reduce task:", k, "timeout")
 					}
 				}
 			}
@@ -121,7 +121,7 @@ func (m *Master) Work(args *WorkArgs, reply *WorkReply) error {
 }
 
 func (m *Master) Commit(args *CommitArgs, reply *CommitReply) error {
-	log.Println("a worker", args.WorkerId, "commit a", args.MapReduce, "task:", args.TaskId)
+	//log.Println("a worker", args.WorkerId, "commit a", args.MapReduce, "task:", args.TaskId)
 	m.mu.Lock()
 	switch args.MapReduce {
 	case "map":
@@ -138,7 +138,7 @@ func (m *Master) Commit(args *CommitArgs, reply *CommitReply) error {
 	}
 	m.mu.Unlock()
 
-	log.Println("current", m.mapTasks, m.reduceTasks)
+	//log.Println("current", m.mapTasks, m.reduceTasks)
 
 	for _, v := range m.mapTasks {
 		if v != TaskCommit {
@@ -151,7 +151,7 @@ func (m *Master) Commit(args *CommitArgs, reply *CommitReply) error {
 		}
 	}
 	m.allCommited = true
-	log.Println("all tasks completed")
+	//log.Println("all tasks completed")
 	return nil
 }
 
@@ -206,7 +206,7 @@ func MakeMaster(files []string, nReduce int) *Master {
 		timeout:      10 * time.Second,
 	}
 
-	log.Println("[init] with:", files, nReduce)
+	//log.Println("[init] with:", files, nReduce)
 	m.server()
 	return &m
 }

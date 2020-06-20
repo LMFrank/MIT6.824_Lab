@@ -52,7 +52,7 @@ func genWorkerID() (uuid string) {
 
 //
 // main/mrworker.go calls this function.
-//
+// 启动无限循环，不断向master发出请求
 func Worker(mapf func(string, string) []KeyValue,
 	reducef func(string, []string) string) {
 
@@ -68,13 +68,13 @@ func Worker(mapf func(string, string) []KeyValue,
 		reply := WorkReply{}
 		working := call("Master.Work", &args, &reply)
 
-		log.Println(working, reply.IsFinished)
+		//log.Println(working, reply.IsFinished)
 
 		if reply.IsFinished || !working {
-			log.Println("finised")
+			//log.Println("finised")
 			return
 		}
-		log.Println("task info:", reply)
+		//log.Println("task info:", reply)
 		switch reply.MapReduce {
 		case "map":
 			MapWork(reply, mapf)
@@ -83,7 +83,7 @@ func Worker(mapf func(string, string) []KeyValue,
 			ReduceWork(reply, reducef)
 			retry = 3
 		default:
-			log.Println("error reply: would retry times:", retry)
+			//log.Println("error reply: would retry times:", retry)
 			if retry < 0 {
 				return
 			}
@@ -96,8 +96,12 @@ func Worker(mapf func(string, string) []KeyValue,
 			MapReduce: reply.MapReduce,
 		}
 		commitReply := CommitReply{}
-		isOK := call("Master.Commit", &CommitArgs, &commitReply)
-		log.Println("Call isOK:", isOK)
+
+		_ = call("Master.Commit", &CommitArgs, &commitReply)
+
+		//isOK := call("Master.Commit", &CommitArgs, &commitReply)
+		//log.Println("Call isOK:", isOK)
+		// 设置一个轮询间隔时间，降低负载
 		time.Sleep(500 * time.Millisecond)
 	}
 }
@@ -160,7 +164,7 @@ func ReduceWork(task WorkReply, reducef func(string, []string) string) {
 		log.Fatal("Unable to create file:", ofile)
 	}
 	defer ofile.Close()
-	log.Println("complete to", task.TaskId, "start to write in to", ofile.Name())
+	//log.Println("complete to", task.TaskId, "start to write in to", ofile.Name())
 	for i < len(intermediate) {
 		j := i + 1
 		for j < len(intermediate) && intermediate[j].Key == intermediate[i].Key {
@@ -171,7 +175,7 @@ func ReduceWork(task WorkReply, reducef func(string, []string) string) {
 			values = append(values, intermediate[k].Value)
 		}
 		output := reducef(intermediate[i].Key, values)
-		fmt.Fprintf(ofile, "intermediate[i].Key: %v output: %v\n", intermediate[i].Key, output)
+		fmt.Fprintf(ofile, "%v %v\n", intermediate[i].Key, output)
 		i = j
 	}
 	ofile.Close()
