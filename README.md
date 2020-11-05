@@ -72,3 +72,10 @@
   - ReduceWork：将master发来的任务，对应的中间文件，合成最终output
 
 参考：https://www.yuque.com/abser/blog/lab1mapreduce
+
+### Lab2-Raft
+
+**参考资料：**
+
+1. [Raft一致性算法论文的中文翻译](https://github.com/maemual/raft-zh_cn)
+
